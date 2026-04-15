@@ -1,22 +1,15 @@
 package es.iesra.datos
 
 import es.iesra.dominio.Reserva
+import es.iesra.dao.IReservaDao
 
-/**
- * Implementación en memoria del repositorio de reservas.
- */
-class ReservaRepository : IReservaRepository {
-    private val reservas = mutableListOf<Reserva>()
+class ReservaRepository(private val reservaDao: IReservaDao) : IReservaRepository {
 
     override fun agregar(reserva: Reserva): Boolean {
-        var agregado = false
-        // Si no existe, se agrega la reserva a la lista.
-        if (!reservas.contains(reserva)) {
-            reservas.add(reserva)
-            agregado = true
-        }
-        return agregado
+        return reservaDao.agregar(reserva)
     }
 
-    override fun obtenerTodas(): List<Reserva> = reservas.toList()
+    override fun obtenerTodas(): List<Reserva> {
+        return reservaDao.obtenerTodas()
+    }
 }
